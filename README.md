@@ -3,6 +3,7 @@ uva-tools
 
 
 Fork of the command Line Based Tool for [uva onlinejudge](https://uva.onlinejudge.org/), [uva-tool](https://github.com/arafat-hasan/uva-tool).
+
 Allows the user to download a problem, automatically display it, submit a solution and see the veredict.
 
 ## Dependency
@@ -64,6 +65,7 @@ Options:
 ## Notes
 
 This project doesn't have a lot of functionalities that the original does, you might wanna look [uva-tool](https://github.com/arafat-hasan/uva-tool) as well.
+
 First bash script, there must be a lot of things to improve, starting with the names of the files which are pretty similar lol.
 Anyway, it was a fun project. Hope you enjoy it.
 
