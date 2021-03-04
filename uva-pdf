@@ -1,0 +1,28 @@
+#!/bin/sh
+
+[ ! -s "files/path" ] && echo "You haven't set a destination directory for the PDF problems!." && exit 1
+[ ! -s "files/pdfviewer" ] && [ $2 -eq 0 ] && echo "You haven't set a PDF viewer!." && exit 1
+
+name=$1
+sub=${name::-2}
+
+url="https://onlinejudge.org/external/${sub}/${name}.pdf"
+
+og=$(pwd)
+
+viewer=$(cat files/pdfviewer)
+
+cd $(cat files/path);
+
+file="${name}.pdf"
+
+if [ ! -f  "$file" ]; then curl -# -LO $url; fi
+
+if [ $2 -eq 0 ]; then $viewer $file & disown; fi
+
+cd; cd $og
+
+sleep .5
+
+clear
+

@@ -1,0 +1,85 @@
+#!/bin/sh
+
+while test $# -gt 0; do
+	case "$1" in
+
+		-h | --help)
+			echo "Usage: uva [OPTIONS] <parameters>"
+			echo "Options:"
+			echo "	--setup                         set all that's needed to properly work."
+			echo "	-d, --path <path>               set path where the download problems will be stored."
+			echo "	-w, --pdf-viewer <pdfviewer>    set PDF viewer."
+			echo "	-l, --login                     log in in Online Judge (UVa)."
+			echo "	-p, --problem <problemid>       download and display a problem. If the problem was already downloaded, just display it."
+			echo "	-po,--problem-only  <problemid> download a problem."
+			echo "	-s, --submit <file>             submit a problem, your file MUST have the same name as the problem id. The program will guess the programming language. "
+			echo "	-v, --veredict <number>         show your last <number> problem's veredict. No argument means 1."
+			exit 0
+			;;
+
+		-d | --path)
+			shift
+			echo $2 > files/path
+			exit 0
+			;;
+
+		-w | --pdf-viewer)
+			shift
+			echo $2 > files/pdfviewer
+			exit 0
+			;;
+
+		-l | --login)
+			shift
+			./uva-tool/uva-tool -login
+			exit 0
+			;;
+
+		-p | --problem)
+			shift
+			[ $# -ne 1 ] && echo "Invalid number of arguments." && exit 1
+			./uva-pdf $1 0
+			exit 0
+			;;
+
+		-po | --problem-only)
+			shift
+			[ $# -ne 1 ] && echo "Invalid number of arguments." && exit 1
+			./uva-pdf $1 1
+			exit 0
+			;;
+
+		-s | --submit)
+			shift
+			lang=${1##*.}; pid=${1%.*}; num=0
+			[ $lang == "c" ] && num=1
+			[ $lang == "java" ] && num=2
+			[ $lang == "pp" ] && num=4
+			[ $lang == "pas" ] && num=4
+			[ $lang == "cpp" ] && num=5
+			[ $lang == "py" ] && num=6
+			[ $num -eq 0 ] && echo "Invalid extension." && exit 1
+			[ $# -eq 1 ] && ./uva-tool/uva-tool -submit ${pid##*/} $1 $num  && exit 0 ||
+			echo "Invalid number of arguments." && exit 1
+			;;
+
+		-v | --veredict)
+			shift
+			[ ! -s files/login ] &&  echo "You haven't logged in!" && exit 1
+			[ $# -eq 0 ] && ./uva-tool/uva-tool -hunt -u $(cat files/login) -r 1 && exit 0 ||
+			[ $# -eq 1 ] && ./uva-tool/uva-tool -hunt -u $(cat files/login) -r $1 && exit 0 ||
+			exit 0
+			;;
+
+		--setup)
+			shift
+			./uva-tool/uva-tool -login
+			echo "Set a destination directory for the PDF problems. (Absolute path)"
+			read d; echo $d > files/path
+			echo "Set your PDF viewer (executable name)."
+			read d; echo $d > files/pdfviewer
+			exit 0
+			;;
+
+	esac
+done
