@@ -4,6 +4,7 @@ og=$(pwd)
 cd
 hom=$(pwd); user=${hom:6}
 cd $og;
+mkdir files
 touch files/username
 touch files/pdfviewer
 touch files/path
