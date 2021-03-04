@@ -38,7 +38,6 @@ chmod +x install.sh
 
 ```sh
 uva --setup
-./install.sh
 ```
 
 ## Usage
