@@ -19,13 +19,13 @@ while test $# -gt 0; do
 
 		-d | --path)
 			shift
-			echo $2 > files/path
+			echo $1 > files/path
 			exit 0
 			;;
 
 		-w | --pdf-viewer)
 			shift
-			echo $2 > files/pdfviewer
+			echo $1 > files/pdfviewer
 			exit 0
 			;;
 
